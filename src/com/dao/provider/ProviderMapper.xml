@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.provider.ProviderMapper">
+	
+	<select id="getProvideCount" resultType="int">
+		select count(*) from smbms_provider where proCode like CONCAT('%',#{queryProCode},'%')
+		 and proName like CONCAT('%',#{queryProName},'%')
+	</select>
+	
+	<select id="getProviderlist" resultType="Provider">
+		select * from smbms_provider where proCode like CONCAT('%',#{queryProCode},'%')
+		 and proName like CONCAT('%',#{queryProName},'%') limit #{currentPageNo},#{pagesize}
+	</select>
+	
+	<insert id="addProvider" parameterType="Provider">
+		INSERT INTO smbms_provider(proCode,proName,proDesc,proContact,proPhone,proAddress,proFax,companyLicPicPath,orgCodePicPath)
+VALUES(#{proCode},#{proName},#{proDesc},#{proContact},#{proPhone},#{proAddress},#{proFax},#{companyLicPicPath},#{orgCodePicPath})
+	</insert>
+	
+	<select id="getByid" resultType="Provider">
+		select * from smbms_provider where id=#{id}
+	</select>
+	
+	<update id="updateProvider" parameterType="Provider">
+		update smbms_provider
+			<trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+				<if test="proCode!=null">proCode=#{proCode},</if>
+				<if test="proName!=null">proName=#{proName},</if>
+				<if test="proDesc!=null">proDesc=#{proDesc},</if>
+				<if test="proContact!=null">proContact=#{proContact},</if>
+				<if test="proPhone!=null">proPhone=#{proPhone},</if>
+				<if test="proAddress!=null">proAddress=#{proAddress},</if>
+				<if test="proFax!=null">proFax=#{proFax},</if>
+				<if test="createdBy!=null">createdBy=#{createdBy},</if>
+				<if test="creationDate!=null">creationDate=#{creationDate},</if>
+				<if test="modifyDate!=null">modifyDate=#{modifyDate},</if>
+				<if test="modifyBy!=null">modifyBy=#{modifyBy}</if>
+			</trim>
+	</update>
+	
+	<delete id="delProvider">
+		delete from smbms_provider where id = #{id}
+	</delete>
+	
+	<select id="getbillByproviderid" resultType="int">
+		select count(*) from smbms_bill where providerId = #{id}
+	</select>
+	
+	<delete id="delbillByproviderid">
+		delete from smbms_bill where providerId = #{id}
+	</delete>
+	
+	<select id="providerlistall" resultType="Provider">
+		select * from smbms_provider
+	</select>
+</mapper>
