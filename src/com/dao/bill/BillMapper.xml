@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.bill.BillMapper">
+	<resultMap type="Bill" id="providerList">
+	<id property="id" column="id"/>
+	<result column="proName" property="proName" />
+	</resultMap>
+	
+	<select id="getBillCount" resultType="int">
+		select count(*) from smbms_bill
+	</select>
+	
+	<select id="QueryBillList" resultType="Bill" resultMap="providerList">
+		SELECT b.*,p.proName FROM smbms_bill AS b,smbms_provider AS p
+		
+		<where>
+		b.providerId = p.id 
+			<if test="queryProductName!=null and queryProductName!=''">
+				and b.productName LIKE CONCAT('%',#{queryProductName},'%')
+			</if>
+			<if test="queryProviderId !=null and queryProviderId != ''">
+				AND p.id=#{queryProviderId}
+			</if>
+			<if test="queryIsPayment !=null and queryIsPayment != ''">
+				and b.isPayment=#{queryIsPayment}
+			</if>
+			
+		</where>
+	</select>
+	
+	<select id="getBillByid" resultType="Bill" resultMap="providerList">
+		select b.*,p.proName FROM smbms_bill AS b,smbms_provider AS p where b.id=#{billid} and b.providerId = p.id 
+	</select>
+	
+	<insert id="addBill">
+		INSERT INTO smbms_bill(billCode,productName,productDesc,productUnit,productCount,totalPrice,isPayment,createdBy,creationDate,modifyBy,modifyDate,providerId) 
+		VALUES(#{billCode},#{productName},#{productDesc},#{productUnit},#{productCount},#{totalPrice},#{isPayment},
+		#{createdBy},#{creationDate},#{modifyBy},#{modifyDate},#{providerId})
+	</insert>
+	
+	<delete id="delBill">
+		delete from smbms_bill where id=#{billid}
+	</delete>
+	
+	<update id="updateBill">
+		UPDATE `smbms_bill` SET `billCode`=#{billCode}, `productName`=#{productName}, `productDesc`=#{productDesc}, 
+		`productUnit`=#{productUnit}, `productCount`=#{productCount}, `totalPrice`=#{totalPrice},
+		 `isPayment`=#{isPayment}, `createdBy`=#{createdBy}, `creationDate`=#{creationDate},providerId=#{providerId} WHERE (`id`=#{id})
+	</update>
+</mapper>

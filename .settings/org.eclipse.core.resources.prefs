@@ -1,2 +1,6 @@
 eclipse.preferences.version=1
+<<<<<<< HEAD
 encoding//src/cn/appsys/tools/PageSupport.java=UTF-8
+=======
+encoding//src/com/entity/PageSupport.java=UTF-8
+>>>>>>> refs/remotes/origin/master

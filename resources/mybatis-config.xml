@@ -4,6 +4,10 @@
 <configuration>
     <!--类型别名 -->
     <typeAliases>
+<<<<<<< HEAD
         <package name="cn.appsys.pojo" />
+=======
+        <package name="com.entity" />
+>>>>>>> refs/remotes/origin/master
     </typeAliases>
 </configuration>
